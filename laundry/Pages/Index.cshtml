@@ -1,0 +1,43 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Laundry Schedule</h1>
+    
+</div>
+
+<div class="mt-4 container">
+    <div class="mt-5 mb-5 row">
+        <div class="container">
+            <h2>Schedule of @System.DateTime.Today.ToString("dddd, dd MMMM yyyy") </h2>
+        </div>
+    </div>
+    <table id="myTable" class="Table">
+        <thead>
+            <tr>
+                <th scope="col">Record #</th>
+                <th scope="col">Name</th>
+                <th scope="col">Laundry Machine</th>
+                <th scope="col">Time Slot</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>thamer</td>
+                <td>close</td>
+                <td>3:00 - 4:00</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+
+<script>
+    $(document).ready( function () {
+        $('#myTable').DataTable();
+    } );
+</script>
