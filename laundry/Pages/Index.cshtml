@@ -1,44 +1,96 @@
-﻿@page
-@model IndexModel
-@{
-    ViewData["Title"] = "Home page";
-}
+@page "{SelectedDate?}"
+@model laundry.Pages.timeslot.IndexModel
+
+
+
+@{ ViewData["Title"] = "Index"; }
+
+<p>
+</p>
 
 <div class="text-center">
     <h1 class="display-4">Laundry Schedule</h1>
-    
+
 </div>
+
+<p>
+    <a class="btn btn-primary" asp-page="Create">Book new</a>
+</p>
+
+
+<form>
+    <p>
+        Select date: <input min="2021-04-01" type="date" asp-for="SelectedDate" />
+        <input type="submit" value="Go" />
+    </p>
+</form>
+
 
 <div class="mt-4 container">
     <div class="mt-5 mb-5 row">
         <div class="container">
-            <h2>Schedule of @System.DateTime.Today.ToString("dddd, dd MMMM yyyy") </h2>
+            @{
+                string day = "";
+
+                if (!string.IsNullOrWhiteSpace(Model.SelectedDate)){
+                    day = Model.SelectedDate;
+                }
+                else
+                {
+                    day = DateTime.Now.ToString("yyyy-MM-dd");
+                }
+            }
+            <h2>Schedule: @day </h2>
         </div>
     </div>
-    <table id="myTable" class="Table">
+    <table id="myTable" class="table">
         <thead>
             <tr>
-                <th scope="col">Record #</th>
-                <th scope="col">Name</th>
-                <th scope="col">Laundry Machine</th>
-                <th scope="col">Time Slot</th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Laundry Machine
+                </th>
+                <th>
+                    Booked Time Slot
+                </th>
+                <th>
+                    Actions
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>thamer</td>
-                <td>close</td>
-                <td>3:00 - 4:00</td>
-            </tr>
+            @*@{ IEnumerable<laundry.Models.TimeSlotModel> schedule = Model.TimeSlotModel.Where(s => s.timeslot.Date.ToString("dd MMMM yyyy") == Model.SelectedDate); }*@
 
+            @foreach (var item in Model.TimeSlotModel)
+            {
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.name)
+    </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.lm)
+    </td>
+    <td>
+        @*@Html.DisplayFor(modelItem => item.timeslot)*@
+        @item.timeslot.ToString("HH:mm") to  @item.timeslot.AddHours(1).ToString("HH:mm")
+    </td>
 
+    <td>
+        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+        @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
+        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+    </td>
+</tr>}
         </tbody>
     </table>
 </div>
 
 <script>
-    $(document).ready( function () {
+$(document).ready(function () {
         $('#myTable').DataTable();
-    } );
+});
+
+
 </script>
