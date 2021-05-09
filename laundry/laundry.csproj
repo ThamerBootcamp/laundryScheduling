@@ -23,6 +23,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="5.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite.Core" Version="5.0.5" />
     <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="5.0.5" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Web.Http.Common" Version="4.0.20126.16343" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />

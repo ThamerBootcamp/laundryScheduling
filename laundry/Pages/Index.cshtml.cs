@@ -46,7 +46,7 @@ namespace laundry.Pages.timeslot
                 }
 
             //schedule = schedule.Where(s => s.timeslot.Date.Equals(System.DateTime.Now.Date));
-        }
+            }
             else
             {
                 schedule = schedule.Where(s => s.timeslot.Date.Equals(System.DateTime.Now.Date));

@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using laundry.Data;
 using laundry.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace laundry.Pages.timeslot
 {
@@ -22,7 +23,22 @@ namespace laundry.Pages.timeslot
 
         [BindProperty]
         public TimeSlotModel TimeSlotModel { get; set; }
-        //public IList<TimeSlotModel> TimeSlots { get; set; }
+
+
+        [Required]
+        [BindProperty(SupportsGet = true)]
+        public string SelectedDate { get; set; }
+
+        [Required]
+        [BindProperty]
+        public int selectedTsVal { get; set; }
+
+        [BindProperty]
+        public IEnumerable<SelectListItem> freeTimeSlots { get; set; }
+
+
+        private ValidTimeSlots validTs = new ValidTimeSlots();
+
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -37,11 +53,15 @@ namespace laundry.Pages.timeslot
             {
                 return NotFound();
             }
+
+            if (string.IsNullOrEmpty(SelectedDate) || !DateTime.TryParse(SelectedDate, out var d))
+            {
+                freeTimeSlots = new SelectList(new List<SelectListItem>() { new SelectListItem { Text = "select date first", Value = "-1", Disabled = true } }, "Value", "Text", -1);
+            }
             return Page();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see https://aka.ms/RazorPagesCRUD.
+
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
@@ -49,15 +69,20 @@ namespace laundry.Pages.timeslot
                 return Page();
             }
 
-            //fource minuets => 00
-            TimeSpan ts = new TimeSpan(TimeSlotModel.timeslot.Hour, 0, 0);
-            TimeSlotModel.timeslot = TimeSlotModel.timeslot.Date + ts;
+            string selectedTs = "";
+            foreach (var item in validTs.validTimeSlots)
+            {
 
-            //TimeSlots = await _context.TimeSlotModel.ToListAsync();
+                if (selectedTsVal.ToString() == item.Value)
+                {
+                    selectedTs = item.Text;
+                }
+            }
 
-            //var conflict = (from m in _context.TimeSlotModel
-            //                where m.lm == TimeSlotModel.lm && m.timeslot == TimeSlotModel.timeslot
-            //                select m).FirstOrDefault();
+            DateTime Date = DateTime.Parse(SelectedDate);
+            TimeSpan ts = TimeSpan.Parse(selectedTs);
+            TimeSlotModel.timeslot = Date + ts;
+
 
             _context.Attach(TimeSlotModel).State = EntityState.Modified;
 
@@ -71,10 +96,6 @@ namespace laundry.Pages.timeslot
                 {
                     return NotFound();
                 }
-                //else if (TimeSlotModelAny(TimeSlotModel.lm, TimeSlotModel.timeslot.Date))
-                //{
-                //    throw new Exception("Time Conflict");
-                //}
                 else
                 {
                     throw;

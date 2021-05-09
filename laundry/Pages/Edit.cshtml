@@ -29,10 +29,22 @@
                 </select>
                 <span asp-validation-for="TimeSlotModel.lm" class="text-danger"></span>
             </div>
+            @*<div class="form-group">
+            <label asp-for="TimeSlotModel.timeslot" class="control-label">Time Slot</label>
+            <input asp-for="TimeSlotModel.timeslot" class="form-control" />
+            <span asp-validation-for="TimeSlotModel.timeslot" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
-                <label asp-for="TimeSlotModel.timeslot" class="control-label">Time Slot</label>
-                <input asp-for="TimeSlotModel.timeslot" class="form-control" />
-                <span asp-validation-for="TimeSlotModel.timeslot" class="text-danger"></span>
+
+                <label step="60" class="control-label">Select Date </label>
+                <input min="2021-04-01" type="date" asp-for="SelectedDate" />
+
+                <label step="60" class="control-label">Free Time Slots </label>
+
+                @if (Model.freeTimeSlots != null)
+                {
+                    @Html.DropDownList("selectedTsVal", (IEnumerable<SelectListItem>)Model.freeTimeSlots, new { required = "required" })
+                }
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
@@ -44,7 +56,59 @@
 <div>
     <a asp-page="./Index">Back to List</a>
 </div>
+<script>
+    $(document).ready(function () {
+        $("#SelectedDate").change(function () {
+            var date = $(this).val();
+            var lm = $("#TimeSlotModel_lm option:selected").text();
 
+            $.ajax({
+                url: '/freetimeslots',
+                type: 'GET',
+                data: { Date: date, LM: lm  },
+                dataType: 'json',
+                success: function (response) {
+
+                    var len = response.data.length;
+                    var res = response.data;
+                    $("#selectedTsVal").empty();
+                    for (var i = 0; i < len; i++) {
+                        var text = res[i]['text'];
+                        var value = res[i]['value'];
+
+                        $("#selectedTsVal").append("<option value='" + value + "'>" + text + "</option>");
+
+                    }
+                }
+            });
+        });
+        $("#TimeSlotModel_lm").change(function () {
+            var date = $("#SelectedDate").val();
+            var lm = $("#TimeSlotModel_lm option:selected").text();
+
+            $.ajax({
+                url: '/freetimeslots',
+                type: 'GET',
+                data: { Date: date, LM: lm },
+                dataType: 'json',
+                success: function (response) {
+
+                    var len = response.data.length;
+                    var res = response.data;
+                    $("#selectedTsVal").empty();
+                    for (var i = 0; i < len; i++) {
+                        var text = res[i]['text'];
+                        var value = res[i]['value'];
+
+                        $("#selectedTsVal").append("<option value='" + value + "'>" + text + "</option>");
+
+                    }
+                }
+            });
+        });
+    });
+
+</script>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

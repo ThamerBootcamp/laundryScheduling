@@ -20,8 +20,7 @@
 
 <form>
     <p>
-        Select date: <input min="2021-04-01" type="date" asp-for="SelectedDate" />
-        <input type="submit" value="Go" />
+        Select date: <input onchange="this.form.submit()" min="2021-04-01" type="date" asp-for="SelectedDate" />
     </p>
 </form>
 
@@ -74,7 +73,7 @@
     </td>
     <td>
         @*@Html.DisplayFor(modelItem => item.timeslot)*@
-        @item.timeslot.ToString("HH:mm") to  @item.timeslot.AddHours(1).ToString("HH:mm")
+        @item.timeslot.ToString("HH:mm") to  @item.timeslot.AddHours(1).AddMinutes(30).ToString("HH:mm")
     </td>
 
     <td>
