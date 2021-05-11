@@ -32,7 +32,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Update="Data\TimeSlotContext-d5a06341.db">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInPackage>true</IncludeInPackage>
     </None>
   </ItemGroup>

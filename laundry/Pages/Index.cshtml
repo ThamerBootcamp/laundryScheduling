@@ -64,24 +64,33 @@
 
             @foreach (var item in Model.TimeSlotModel)
             {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.lm)
-    </td>
-    <td>
-        @*@Html.DisplayFor(modelItem => item.timeslot)*@
-        @item.timeslot.ToString("HH:mm") to  @item.timeslot.AddHours(1).AddMinutes(30).ToString("HH:mm")
-    </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lm)
+            </td>
+            <td>
+                @*@Html.DisplayFor(modelItem => item.timeslot)*@
+                @*@{ string toHrs = item.timeslot.AddHours(1).AddMinutes(30).ToString("HH:mm");
+                                    if (item.regdate.Date < new DateTime(2021, 05, 09))
+                                    {
+                                        toHrs = item.timeslot.AddHours(1).ToString("HH:mm");
+                                    } }*@
 
-    <td>
-        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-        @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
-        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-    </td>
-</tr>}
+                @item.timeslot.ToString("HH:mm") to @item.timeslot.AddHours(1).AddMinutes(30).ToString("HH:mm")
+
+
+
+            </td>
+
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                @*<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |*@
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>}
         </tbody>
     </table>
 </div>
