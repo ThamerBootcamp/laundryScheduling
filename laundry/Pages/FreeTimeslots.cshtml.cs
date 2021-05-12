@@ -49,7 +49,7 @@ namespace laundry.Pages
                     }
                 }
 
-                freeTs =  validTs.validTimeSlots.Where(x => !busyTs.Contains(x)).ToList();
+                freeTs =  validTs.validTimeSlots.Where(x => !busyTs.Contains(x) && (date + TimeSpan.Parse(x.Text) > DateTime.Now)).ToList();
             }
 
             return new JsonResult(new { data = freeTs });

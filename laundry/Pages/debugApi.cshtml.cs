@@ -35,24 +35,39 @@ namespace laundry.Pages
                            where m.lm == LM && m.timeslot.Date == date.Date
                            select m.timeslot).ToList();
 
+                //List<SelectListItem> vtList = validTs.validTimeSlots.Where(x => (date+ TimeSpan.Parse(x.Text)> DateTime.Now)).ToList();
+
+                //foreach (var item in validTs.validTimeSlots)
+                //{
+                //    if (DateTime.Now < (date + TimeSpan.Parse(item.Text)))
+                //    {
+                //        vtList.Add(item);
+                //    }
+                //}
 
                 foreach (var rec in records)
                 {
+
+                    //TimeSpan recTimeSpan = TimeSpan.Parse(rec.ToString("HH:mm:ss"));
+                    //DateTime now = DateTime.Now; //TimeSpan.Parse(rec.ToString("HH:mm:ss"));
+
                     foreach (var vt in validTs.validTimeSlots)
                     {
+
                         string recTime = rec.ToString("HH:mm:ss").Substring(0, 5);
-                        //string recTime = rec.ToLongTimeString().Substring(0, 4);
-                        debug.Add("recTime: "+recTime + ", vt text: " + vt.Text);
+                        debug.Add("recTime: " + recTime + ", vt text: " + vt.Text);
+                        //debug.Add("recTimeSpan: " + recTimeSpan + ", vtTimeSpan: " + vtTimeSpan);
 
                         if (recTime.Equals(vt.Text))
                         {
                             busyTs.Add(vt);
                             break;
                         }
+                        
                     }
                 }
 
-                freeTs = validTs.validTimeSlots.Where(x => !busyTs.Contains(x)).ToList();
+                freeTs = validTs.validTimeSlots.Where(x => !busyTs.Contains(x)&& (date + TimeSpan.Parse(x.Text) > DateTime.UtcNow)).ToList();
             }
 
             return new JsonResult(new { records = records, busy = busyTs , free = freeTs , debug = debug});
