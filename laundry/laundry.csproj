@@ -27,7 +27,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Models\" />
-    <Folder Include="site\wwwroot\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
   <ItemGroup>
@@ -35,5 +34,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <IncludeInPackage>true</IncludeInPackage>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Data\TimeSlotContext.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 </Project>
