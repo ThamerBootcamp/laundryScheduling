@@ -14,7 +14,9 @@ test-results/
 # Mac bundle stuff
 *.dmg
 *.app
-
+#mine 
+.gitignore
+/laundry/Data/TimeSlotContext-d5a06341.db
 
 # content below from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
 # General
@@ -158,7 +160,6 @@ StyleCopReport.xml
 *.svclog
 *.scc
 
-*.db
 
 # Chutzpah Test files
 _Chutzpah*
