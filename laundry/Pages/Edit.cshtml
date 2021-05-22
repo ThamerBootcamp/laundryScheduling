@@ -6,8 +6,12 @@
 }
 
 @*<h1>Edit</h1>*@
-
-<h4>Edit booked time slot</h4>
+<div class="row d-inline-flex justify-content-start">
+    <div>
+        <a asp-page="Index" class=" d-inline btn btn-tuwaiq-light text-light btn-sm">Back</a>
+        <h4 class="p-3 d-inline">Edit booked time slot</h4>
+    </div>
+</div>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -22,7 +26,7 @@
             <div class="form-group">
                 <label asp-for="TimeSlotModel.lm" class="control-label">Laundry Machine</label>
                 @*<input asp-for="TimeSlotModel.lm" class="form-control" />*@
-                <select asp-for="TimeSlotModel.lm">
+                <select class="form-control" asp-for="TimeSlotModel.lm">
                     <option>Please select one</option>
                     <option>Old machine</option>
                     <option>New machine</option>
@@ -37,25 +41,23 @@
             <div class="form-group">
 
                 <label step="60" class="control-label">Select Date </label>
-                <input min="2021-04-01" type="date" asp-for="SelectedDate" />
+                <input class="form-control" min="2021-04-01" type="date" asp-for="SelectedDate" />
 
                 <label step="60" class="control-label">Free Time Slots </label>
 
                 @if (Model.freeTimeSlots != null)
                 {
-                    @Html.DropDownList("selectedTsVal", (IEnumerable<SelectListItem>)Model.freeTimeSlots, new { required = "required" })
+                    @Html.DropDownList("selectedTsVal", (IEnumerable<SelectListItem>)Model.freeTimeSlots, new { required = "required", @class = "form-control" })
                 }
             </div>
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="mt-2 btn btn-tuwaiq-light text-light" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="./Index">Back to List</a>
-</div>
+
 <script>
     $(document).ready(function () {
         $("#SelectedDate").change(function () {

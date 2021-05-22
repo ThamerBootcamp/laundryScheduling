@@ -1,13 +1,16 @@
 @page "{SelectedDate?}"
 @model laundry.Pages.timeslot.CreateModel
 
-@{
-    ViewData["Title"] = "Create";
-}
+@{ ViewData["Title"] = "Create"; }
 
-<h1> </h1>
 
-<h4>Book a time slot</h4>
+<div class="row d-inline-flex justify-content-start">
+    <div>
+        <a asp-page="Index" class=" d-inline btn btn-tuwaiq-light text-light btn-sm" >Back</a>
+        <h4 class="p-3 d-inline">Book a time slot</h4>
+    </div>
+</div>
+
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -21,7 +24,7 @@
             <div class="form-group">
                 <label asp-for="TimeSlotModel.lm" class="control-label">Laundry Machine</label>
                 @*<input placeholder="Machine-1" value="Machine-1" asp-for="TimeSlotModel.lm" class="form-control" />*@
-                <select required asp-for="TimeSlotModel.lm">
+                <select class="form-control" required asp-for="TimeSlotModel.lm">
                     <option>New machine</option>
                     <option>Old machine</option>
                 </select>
@@ -29,32 +32,28 @@
                 <span asp-validation-for="TimeSlotModel.lm" class="text-danger"></span>
             </div>
             <div class="form-group">
-  
-                <label  step="60" class="control-label">Select Date </label>
-                <input min="2021-04-01" type="date" asp-for="SelectedDate" />
+
+                <label step="60" class="control-label">Select Date </label>
+                <input class="form-control" min="2021-04-01" type="date" asp-for="SelectedDate" />
 
                 <label step="60" class="control-label">Free Time Slots </label>
 
                 @if (Model.freeTimeSlots != null)
                 {
-                    @Html.DropDownList("selectedTsVal", (IEnumerable<SelectListItem>)Model.freeTimeSlots, new { required = "required" })
-                } 
+    @Html.DropDownList("selectedTsVal", (IEnumerable<SelectListItem>)Model.freeTimeSlots, new { required = "required",@class = "form-control" })
+                }
             </div>
 
             <input type="hidden" asp-for="TimeSlotModel.regdate" value="@DateTime.Now" />
 
             <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                <input type="submit" value="Create" class="mt-2 btn btn-tuwaiq-light text-light" />
             </div>
         </form>
     </div>
 </div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
-<script>
-    $(document).ready(function () {
+<script>$(document).ready(function () {
 
         $("#SelectedDate").change(function () {
             var date = $(this).val();
@@ -63,7 +62,7 @@
             $.ajax({
                 url: '/freetimeslots',
                 type: 'GET',
-                data: { Date: date, LM: lm  },
+                data: { Date: date, LM: lm },
                 dataType: 'json',
                 success: function (response) {
 
@@ -105,9 +104,7 @@
             });
         });
 
-    });    
-    
-</script>
+    });</script>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

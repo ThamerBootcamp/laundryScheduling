@@ -2424,6 +2424,13 @@ fieldset:disabled a.btn {
   background-color: #007bff;
   border-color: #007bff;
 }
+/*costum btn style*/
+.btn-tuwaiq {
+    color: #fff;
+    background-color: #00adbb;
+    border-color: #1861ac;
+}
+
 
 .btn-primary:hover {
   color: #fff;
